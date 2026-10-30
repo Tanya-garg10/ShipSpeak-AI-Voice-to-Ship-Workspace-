@@ -233,9 +233,9 @@ export function parseBriefDeterministic(rawText: string): ExtractedBriefData {
       .filter(l => l.length > 3);
     requiredTechTools.push(...lines);
   } else {
-    // Detect mentions of Wispr, Gemini, React, etc.
+    // Detect mentions of Wispr, Featherless, React, etc.
     if (/wispr flow/i.test(text)) requiredTechTools.push('Wispr Flow (Voice dictation)');
-    if (/gemini/i.test(text)) requiredTechTools.push('Google Gemini API');
+    if (/featherless/i.test(text)) requiredTechTools.push('Featherless AI API');
     if (/typescript/i.test(text)) requiredTechTools.push('TypeScript');
     if (/react/i.test(text)) requiredTechTools.push('React');
   }

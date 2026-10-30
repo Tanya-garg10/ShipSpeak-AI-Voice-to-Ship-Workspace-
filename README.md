@@ -23,7 +23,7 @@ Hackathon builders lose up to 30% of their critical shipping window wrestling wi
 ## 🛠 Tech Stack
 
 - **Frontend**: React 19, TypeScript, Vite 8, Tailwind CSS v4, Lucide React, Motion
-- **Backend / Optional AI**: Node.js, Express, `@google/genai` (Gemini 3.8 Flash for optional deep brief analysis with seamless deterministic fallback)
+- **Backend / Optional AI**: Node.js, Express, OpenAI SDK (Featherless AI - Llama 3.1 for optional deep brief analysis with seamless deterministic fallback)
 - **Persistence**: HTML5 LocalStorage (Version 1 Schema) with JSON import/export
 - **Voice / Speech**: Web Speech Recognition API & Web Speech Synthesis API + Wispr Flow desktop dictation compatibility
 - **Deployment**: Vercel-ready with `vercel.json` SPA rewrite rules and full-stack Express support
@@ -45,10 +45,10 @@ npm install
 
 ### 2. Environment Setup (Optional)
 ShipSpeak AI is **100% functional offline** without an API key using its deterministic parsing engine.
-If you wish to enable the optional server-side Gemini 3.8 Flash analysis:
+If you wish to enable the optional server-side Featherless AI analysis:
 ```bash
 cp .env.example .env
-# Edit .env and set GEMINI_API_KEY
+# Edit .env and set FEATHERLESS_API_KEY
 ```
 
 ### 3. Run Development Server
@@ -81,7 +81,7 @@ ShipSpeak AI includes a preconfigured `vercel.json` for instant single-page appl
    - **Framework Preset**: Vite
    - **Build Command**: `npm run build`
    - **Output Directory**: `dist`
-5. *(Optional)* Add `GEMINI_API_KEY` to Environment Variables if enabling server-side AI parsing.
+5. *(Optional)* Add `FEATHERLESS_API_KEY` to Environment Variables if enabling server-side AI parsing.
 6. Click **"Deploy"**. Your live URL will be ready in under 60 seconds.
 
 ---

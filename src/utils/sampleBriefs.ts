@@ -64,16 +64,16 @@ Every participant must submit:
 Submit your project via the official WeMakeDevs portal before November 15, 2026, 11:59 PM PST. Include your live deployment URL, GitHub repository link, demo video link, and Wispr Flow verification asset. Late submissions will not be scored.`
   },
   {
-    id: 'gemini-challenge',
-    name: 'Gemini Developer Challenge 2026',
-    tagline: 'Build next-generation AI apps with Gemini multimodal APIs',
-    rawText: `COMPETITION BRIEF: Gemini Developer Challenge 2026
-ORGANIZER: Google Cloud & AI Studio
+    id: 'featherless-challenge',
+    name: 'Featherless AI Developer Challenge 2026',
+    tagline: 'Build next-generation AI apps with open-weight models',
+    rawText: `COMPETITION BRIEF: Featherless AI Developer Challenge 2026
+ORGANIZER: Featherless AI
 SUBMISSION DEADLINE: December 1, 2026 at 5:00 PM EST
 REGISTRATION DEADLINE: November 25, 2026
 
 1. CHALLENGE OVERVIEW
-Developers worldwide are challenged to build multimodal AI web applications that leverage the official @google/genai SDK to solve pressing workflow bottlenecks for creators, researchers, and engineers.
+Developers worldwide are challenged to build multimodal AI web applications that leverage the Featherless AI API to solve pressing workflow bottlenecks for creators, researchers, and engineers.
 
 2. PROBLEM STATEMENT
 Modern knowledge workers struggle with context switching across documents, voice memos, and code repositories. We challenge you to build an intuitive workspace that digests multimodal inputs and outputs structured, reliable actions.
@@ -84,7 +84,7 @@ Developers, students, data analysts, and enterprise knowledge workers.
 4. ELIGIBILITY
 - Age 18+ worldwide (void where prohibited).
 - Solo or teams up to 5 members.
-- Free tier AI Studio keys or enterprise GCP accounts eligible.
+- Free tier Featherless API keys eligible.
 
 5. REQUIRED DELIVERABLES
 - Working public application URL.
@@ -93,11 +93,11 @@ Developers, students, data analysts, and enterprise knowledge workers.
 - Architecture diagram and technical README explaining prompt grounding and safety filters.
 
 6. REQUIRED TECH
-- Google Gemini API (@google/genai SDK).
+- Featherless AI API (OpenAI-compatible SDK).
 - TypeScript / React / Node or Python backend.
 
 7. JUDGING CRITERIA
-- Technical Depth (30%): Proper integration of Gemini structured outputs and system instructions.
+- Technical Depth (30%): Proper integration of Featherless structured outputs and system instructions.
 - User Experience & Design (25%): Clean, intuitive, accessible user interface.
 - Real-World Utility (25%): Practicality and business/developer value.
 - Creativity (20%): Originality of the concept.

@@ -107,7 +107,7 @@ export const BriefAnalyzer: React.FC<BriefAnalyzerProps> = ({
                 parserMode: 'ai-enhanced'
               };
               setCurrentAnalysis(mergedAnalysis);
-              setSuccessNotice('Analysis completed with server-side Gemini 3.8 Flash model.');
+              setSuccessNotice('Analysis completed with server-side Featherless AI (Llama 3.1) model.');
               setIsAnalyzing(false);
               return;
             }
@@ -231,7 +231,7 @@ export const BriefAnalyzer: React.FC<BriefAnalyzerProps> = ({
               onClick={() => handleLoadSample(s.id)}
               className="px-3 py-1.5 text-xs font-semibold rounded-xl bg-white hover:bg-violet-50 text-stone-700 hover:text-violet-800 border border-stone-200 hover:border-violet-300 transition-all shadow-2xs"
             >
-              {s.id === 'wispr-challenge' ? 'Voice Hackathon' : s.id === 'gemini-challenge' ? 'Gemini 2026' : 'AI Agents'}
+              {s.id === 'wispr-challenge' ? 'Voice Hackathon' : s.id === 'featherless-challenge' ? 'Featherless 2026' : 'AI Agents'}
             </button>
           ))}
         </div>
@@ -315,7 +315,7 @@ export const BriefAnalyzer: React.FC<BriefAnalyzerProps> = ({
                     : 'text-stone-600 hover:text-stone-900'
                 }`}
               >
-                AI Enhanced (Gemini 3.8 Flash)
+                AI Enhanced (Featherless AI)
               </button>
             </div>
           </div>

@@ -7,7 +7,7 @@ import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
-import { GoogleGenAI, Type } from '@google/genai';
+import OpenAI from 'openai';
 
 dotenv.config();
 
@@ -24,13 +24,13 @@ app.use(express.json({ limit: '10mb' }));
 app.get('/api/health', (_req, res) => {
   res.json({
     status: 'ok',
-    hasGeminiKey: Boolean(process.env.GEMINI_API_KEY),
+    hasFeatherlessKey: Boolean(process.env.FEATHERLESS_API_KEY),
     mode: isProd ? 'production' : 'development',
     timestamp: new Date().toISOString()
   });
 });
 
-// Secure server-side brief analysis route using Gemini 3.8 Flash (if key available)
+// Secure server-side brief analysis route using Featherless API (if key available)
 app.post('/api/analyze-brief', async (req, res) => {
   try {
     const { briefText } = req.body;
@@ -38,91 +38,69 @@ app.post('/api/analyze-brief', async (req, res) => {
       return res.status(400).json({ error: 'briefText string is required in request body.' });
     }
 
-    const apiKey = process.env.GEMINI_API_KEY;
+    const apiKey = process.env.FEATHERLESS_API_KEY;
     if (!apiKey) {
       return res.json({
         success: false,
         fallbackToDeterministic: true,
-        message: 'No GEMINI_API_KEY configured on server. Deterministic parser will be used.'
+        message: 'No FEATHERLESS_API_KEY configured on server. Deterministic parser will be used.'
       });
     }
 
-    const ai = new GoogleGenAI({ apiKey });
+    const openai = new OpenAI({
+      baseURL: 'https://api.featherless.ai/v1',
+      apiKey: apiKey
+    });
 
     const systemPrompt = `You are a strict, precise competition brief analyzer for hackathon builders.
 Extract ONLY explicit facts from the provided competition brief.
 Do not fabricate or guess any rules, deadlines, judging percentages, or prize amounts.
 If a detail is missing or unspecified in the text, you MUST mark it as "Not specified in brief".
-For each item, cite exact brief phrases where applicable.`;
+For each item, cite exact brief phrases where applicable.
+Return the response as a valid JSON object with the following structure:
+{
+  "competitionName": "string",
+  "problemStatement": "string",
+  "targetAudience": "string",
+  "registrationDeadline": "string",
+  "submissionDeadline": "string",
+  "eligibilityRules": ["string"],
+  "requiredTechTools": ["string"],
+  "requiredDeliverables": ["string"],
+  "judgingCriteria": [{"criterion": "string", "weightOrDescription": "string"}],
+  "demoVideoRequirements": "string",
+  "workingProjectLinkRequirements": "string",
+  "documentationRequirements": "string",
+  "submissionInstructions": "string",
+  "prizeInformation": "string"
+}`;
 
-    const response = await ai.models.generateContent({
-      model: 'gemini-3.8-flash',
-      contents: [
+    const response = await openai.chat.completions.create({
+      model: 'meta-llama/Meta-Llama-3.1-8B-Instruct',
+      messages: [
+        {
+          role: 'system',
+          content: systemPrompt
+        },
         {
           role: 'user',
-          parts: [
-            {
-              text: `${systemPrompt}\n\nAnalyze this competition brief:\n\n${briefText.slice(0, 15000)}`
-            }
-          ]
+          content: `Analyze this competition brief:\n\n${briefText.slice(0, 15000)}`
         }
       ],
-      config: {
-        responseMimeType: 'application/json',
-        responseSchema: {
-          type: Type.OBJECT,
-          properties: {
-            competitionName: { type: Type.STRING },
-            problemStatement: { type: Type.STRING },
-            targetAudience: { type: Type.STRING },
-            registrationDeadline: { type: Type.STRING },
-            submissionDeadline: { type: Type.STRING },
-            eligibilityRules: {
-              type: Type.ARRAY,
-              items: { type: Type.STRING }
-            },
-            requiredTechTools: {
-              type: Type.ARRAY,
-              items: { type: Type.STRING }
-            },
-            requiredDeliverables: {
-              type: Type.ARRAY,
-              items: { type: Type.STRING }
-            },
-            judgingCriteria: {
-              type: Type.ARRAY,
-              items: {
-                type: Type.OBJECT,
-                properties: {
-                  criterion: { type: Type.STRING },
-                  weightOrDescription: { type: Type.STRING }
-                },
-                required: ['criterion', 'weightOrDescription']
-              }
-            },
-            demoVideoRequirements: { type: Type.STRING },
-            workingProjectLinkRequirements: { type: Type.STRING },
-            documentationRequirements: { type: Type.STRING },
-            submissionInstructions: { type: Type.STRING },
-            prizeInformation: { type: Type.STRING }
-          },
-          required: [
-            'competitionName',
-            'problemStatement',
-            'targetAudience',
-            'submissionDeadline',
-            'requiredDeliverables'
-          ]
-        }
-      }
+      temperature: 0.1,
+      max_tokens: 4000
     });
 
-    const outputText = response.text;
+    const outputText = response.choices[0]?.message?.content;
     if (!outputText) {
-      throw new Error('Gemini returned an empty response.');
+      throw new Error('Featherless API returned an empty response.');
     }
 
-    const parsedData = JSON.parse(outputText);
+    // Parse JSON from the response (handle potential markdown code blocks)
+    const jsonMatch = outputText.match(/```json\s*([\s\S]*?)\s*```/) || outputText.match(/\{[\s\S]*\}/);
+    const jsonString = jsonMatch ? jsonMatch[1] || jsonMatch[0] : outputText;
+    const parsedData = JSON.parse(jsonString);
+
     return res.json({
       success: true,
       data: parsedData,
