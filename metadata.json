@@ -1,0 +1,6 @@
+{
+  "name": "ShipSpeak AI — Voice-to-Ship Workspace",
+  "description": "Turns competition briefs and voice notes into actionable project roadmaps, Kanban tasks, submission readiness checklists, and timed demo scripts.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

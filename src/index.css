@@ -1,0 +1,20 @@
+@import "tailwindcss";
+
+@keyframes wave-bar {
+  0%, 100% { transform: scaleY(0.35); }
+  50% { transform: scaleY(1); }
+}
+
+.animate-wave-1 { animation: wave-bar 1.2s ease-in-out infinite; transform-origin: center; }
+.animate-wave-2 { animation: wave-bar 1.2s ease-in-out 0.2s infinite; transform-origin: center; }
+.animate-wave-3 { animation: wave-bar 1.2s ease-in-out 0.4s infinite; transform-origin: center; }
+.animate-wave-4 { animation: wave-bar 1.2s ease-in-out 0.15s infinite; transform-origin: center; }
+.animate-wave-5 { animation: wave-bar 1.2s ease-in-out 0.35s infinite; transform-origin: center; }
+
+/* Custom smooth transitions for cards and buttons */
+.card-lift {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
+}
+.card-lift:hover {
+  transform: translateY(-2px);
+}
