@@ -26,6 +26,7 @@ interface TaskBoardProps {
   onDeleteTask: (taskId: string) => void;
   onUpdateTaskStatus: (taskId: string, status: TaskStatus) => void;
   onCreateNewProject: () => void;
+  wisprFlowApiKey?: string;
 }
 
 export const TaskBoard: React.FC<TaskBoardProps> = ({
@@ -34,7 +35,8 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({
   onUpdateTask,
   onDeleteTask,
   onUpdateTaskStatus,
-  onCreateNewProject
+  onCreateNewProject,
+  wisprFlowApiKey
 }) => {
   const [viewMode, setViewMode] = useState<'kanban' | 'list'>('kanban');
   const [searchQuery, setSearchQuery] = useState('');
@@ -573,6 +575,7 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({
                       setFormData(prev => ({ ...prev, title: prev.title ? `${prev.title} ${text}` : text }));
                     }}
                     tooltipText="Dictate task title"
+                    wisprFlowApiKey={wisprFlowApiKey}
                   />
                 </div>
                 <input
@@ -593,6 +596,7 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({
                       setFormData(prev => ({ ...prev, description: prev.description ? `${prev.description} ${text}` : text }));
                     }}
                     tooltipText="Dictate task description"
+                    wisprFlowApiKey={wisprFlowApiKey}
                   />
                 </div>
                 <textarea

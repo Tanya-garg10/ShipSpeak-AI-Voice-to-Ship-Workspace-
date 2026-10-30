@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   ExtractedBriefData,
   ExtractedRequirement,
@@ -37,13 +37,15 @@ interface BriefAnalyzerProps {
   onSaveAsNewProject: (project: Project) => void;
   onUpdateProjectAnalysis: (projectId: string, analysis: ExtractedBriefData) => void;
   onNavigate: (tab: NavigationTab) => void;
+  wisprFlowApiKey?: string;
 }
 
 export const BriefAnalyzer: React.FC<BriefAnalyzerProps> = ({
   activeProject,
   onSaveAsNewProject,
   onUpdateProjectAnalysis,
-  onNavigate
+  onNavigate,
+  wisprFlowApiKey
 }) => {
   const [briefInput, setBriefInput] = useState<string>(activeProject?.briefRaw || SAMPLE_BRIEFS[0].rawText);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -268,6 +270,7 @@ export const BriefAnalyzer: React.FC<BriefAnalyzerProps> = ({
                 setBriefInput(prev => prev ? `${prev}\n\n${text}` : text);
               }}
               tooltipText="Click to dictate requirements hands-free"
+              wisprFlowApiKey={wisprFlowApiKey}
             />
 
             <button

@@ -69,7 +69,8 @@ export function getDefaultStorageData(): StorageDataV1 {
     settings: {
       userName: 'Hackathon Builder',
       enableSpeechRecognition: true,
-      theme: 'light'
+      theme: 'light',
+      wisprFlowApiKey: ''
     }
   };
 }
@@ -141,7 +142,8 @@ export function validateAndImportProjectData(jsonString: string): { success: boo
       settings: parsed.settings || {
         userName: 'Builder',
         enableSpeechRecognition: true,
-        theme: 'light'
+        theme: 'light',
+        wisprFlowApiKey: ''
       }
     };
 
@@ -160,7 +162,8 @@ export function clearAllStorageData(): StorageDataV1 {
     settings: {
       userName: 'Builder',
       enableSpeechRecognition: true,
-      theme: 'light'
+      theme: 'light',
+      wisprFlowApiKey: ''
     }
   };
   saveStorageData(fresh);

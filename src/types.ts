@@ -146,5 +146,6 @@ export interface StorageDataV1 {
     enableSpeechRecognition: boolean;
     theme: 'light' | 'system';
     lastBackupDate?: string;
+    wisprFlowApiKey?: string;
   };
 }

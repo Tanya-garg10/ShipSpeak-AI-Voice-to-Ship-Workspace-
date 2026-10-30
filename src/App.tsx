@@ -30,6 +30,17 @@ export default function App() {
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [isNewProjectModalOpen, setIsNewProjectModalOpen] = useState(false);
 
+  // Wispr Flow API key (from env or settings)
+  const [wisprFlowApiKey, setWisprFlowApiKey] = useState<string>(
+    (typeof process !== 'undefined' && process.env.WISPRFLOW_API_KEY) || storageData.settings?.wisprFlowApiKey || ''
+  );
+
+  // Update Wispr Flow API key when storageData changes
+  useEffect(() => {
+    const key = (typeof process !== 'undefined' && process.env.WISPRFLOW_API_KEY) || storageData.settings?.wisprFlowApiKey || '';
+    setWisprFlowApiKey(key);
+  }, [storageData.settings?.wisprFlowApiKey]);
+
   // New project modal form state
   const [newProjectTitle, setNewProjectTitle] = useState('');
   const [newProjectBrief, setNewProjectBrief] = useState('');
@@ -357,6 +368,7 @@ export default function App() {
                   onSaveAsNewProject={handleSaveAsNewProject}
                   onUpdateProjectAnalysis={handleUpdateProjectAnalysis}
                   onNavigate={handleSelectTab}
+                  wisprFlowApiKey={wisprFlowApiKey}
                 />
               )}
 
@@ -368,6 +380,7 @@ export default function App() {
                   onDeleteTask={handleDeleteTask}
                   onUpdateTaskStatus={handleUpdateTaskStatus}
                   onCreateNewProject={() => setIsNewProjectModalOpen(true)}
+                  wisprFlowApiKey={wisprFlowApiKey}
                 />
               )}
 

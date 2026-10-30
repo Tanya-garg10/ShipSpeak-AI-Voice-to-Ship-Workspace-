@@ -20,7 +20,9 @@ import {
   Mic,
   CheckCircle2,
   AlertTriangle,
-  Volume2
+  Volume2,
+  Zap,
+  Key
 } from 'lucide-react';
 
 interface SettingsViewProps {
@@ -34,6 +36,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
 }) => {
   const [showClearConfirm, setShowClearConfirm] = useState(false);
   const [feedbackNotice, setFeedbackNotice] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
+  const [wisprFlowApiKey, setWisprFlowApiKey] = useState(storageData.settings.wisprFlowApiKey || '');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const projectsCount = storageData.projects.length;
@@ -92,6 +95,21 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
     setFeedbackNotice({
       type: 'success',
       message: 'All workspace data cleared from local browser storage.'
+    });
+  };
+
+  const handleSaveWisprFlowKey = () => {
+    const updatedData: StorageDataV1 = {
+      ...storageData,
+      settings: {
+        ...storageData.settings,
+        wisprFlowApiKey: wisprFlowApiKey.trim()
+      }
+    };
+    onDataReload(updatedData);
+    setFeedbackNotice({
+      type: 'success',
+      message: 'Wispr Flow API key saved successfully.'
     });
   };
 
@@ -155,6 +173,62 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
         <div className="p-4 bg-violet-50/40 rounded-2xl border border-violet-100 text-xs text-stone-600 leading-relaxed">
           <span className="font-bold text-stone-800">Browser Storage Note: </span>
           All data remains locally in your current browser. It does not synchronize automatically across different devices or incognito windows. Create a JSON backup using the export tool below anytime.
+        </div>
+      </div>
+
+      {/* Wispr Flow API Configuration */}
+      <div className="bg-white border border-violet-100 rounded-3xl p-6 shadow-xs space-y-4 card-lift">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-violet-600 to-indigo-600 text-white flex items-center justify-center shadow-md shadow-violet-500/20">
+            <Zap className="w-5 h-5" />
+          </div>
+          <div>
+            <h3 className="text-base font-bold text-stone-900">Wispr Flow API Configuration</h3>
+            <p className="text-xs text-violet-700 font-medium">AI-Powered Voice Dictation</p>
+          </div>
+        </div>
+        <p className="text-xs text-stone-600 leading-relaxed">
+          Add your Wispr Flow API key to enable high-accuracy AI voice dictation with auto-edits, filler word removal, and improved name recognition. Without this key, the app will fall back to browser's built-in speech recognition.
+        </p>
+        <div className="space-y-3">
+          <div>
+            <label className="font-bold text-stone-800 text-xs block mb-1.5">Wispr Flow API Key</label>
+            <div className="flex gap-2">
+              <input
+                type="password"
+                value={wisprFlowApiKey}
+                onChange={(e) => setWisprFlowApiKey(e.target.value)}
+                placeholder="Enter your Wispr Flow API key (get it from wisprflow.ai/account/api-keys)"
+                className="flex-1 p-3 rounded-2xl border border-stone-200 focus:outline-hidden focus:ring-2 focus:ring-violet-500/20 text-stone-900 text-xs font-mono"
+              />
+              <button
+                type="button"
+                onClick={handleSaveWisprFlowKey}
+                className="px-4 py-2.5 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 text-white rounded-2xl text-xs font-bold shadow-md shadow-violet-500/25 transition-all cursor-pointer"
+              >
+                Save
+              </button>
+            </div>
+          </div>
+          <div className="p-3 bg-violet-50/50 rounded-2xl border border-violet-100 text-xs text-stone-600">
+            <div className="flex items-start gap-2">
+              <Key className="w-4 h-4 text-violet-600 shrink-0 mt-0.5" />
+              <div>
+                <span className="font-bold text-stone-800">Get your API key:</span>
+                <a
+                  href="https://wisprflow.ai/account/api-keys"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-violet-700 hover:text-violet-900 font-semibold ml-1"
+                >
+                  wisprflow.ai/account/api-keys
+                </a>
+                <p className="mt-1 text-stone-500">
+                  Your API key is stored locally in your browser and never sent to our servers.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 

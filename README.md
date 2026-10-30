@@ -24,8 +24,9 @@ Hackathon builders lose up to 30% of their critical shipping window wrestling wi
 
 - **Frontend**: React 19, TypeScript, Vite 8, Tailwind CSS v4, Lucide React, Motion
 - **Backend / Optional AI**: Node.js, Express, OpenAI SDK (Featherless AI - Llama 3.1 for optional deep brief analysis with seamless deterministic fallback)
+- **Voice Dictation**: Wispr Flow API (AI-powered speech-to-text with auto-edits) + Web Speech Recognition API fallback
 - **Persistence**: HTML5 LocalStorage (Version 1 Schema) with JSON import/export
-- **Voice / Speech**: Web Speech Recognition API & Web Speech Synthesis API + Wispr Flow desktop dictation compatibility
+- **Voice / Speech**: Web Speech Synthesis API + Wispr Flow desktop dictation compatibility
 - **Deployment**: Vercel-ready with `vercel.json` SPA rewrite rules and full-stack Express support
 
 ---
